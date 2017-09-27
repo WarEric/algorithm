@@ -111,7 +111,7 @@ void show_array(int *head,int *tail)
 {
      int count = 0;
     
-     printf("The length of the array is: %d\n", (tail-head)+1);
+     printf("The length of the array is: %ld\n", (tail-head)+1);
      puts("The array is:");
 
      int *ptr = head, *end = tail+1;
@@ -124,7 +124,7 @@ void show_array(int *head,int *tail)
      putchar('\n');
 
     if(count != (tail-head)+1 )
-       printf("count = %d, this isn\'t consistent with %d\n", count, (tail-head)+1);
+       printf("count = %d, this isn\'t consistent with %ld\n", count, (tail-head)+1);
 }
 
 /*
@@ -137,7 +137,7 @@ void show_result(struct subarray result,int *head)
     int count = 0;
   
     printf("The max sum of the array is: %lld\n", result.sum);
-    printf("The subarray is from A[%d] to A[%d] \n", (result.low - head) + 1,\
+    printf("The subarray is from A[%ld] to A[%ld] \n", (result.low - head) + 1,\
             (result.high - head) + 1);
     printf("The following is the selected subarray:\n");
 
