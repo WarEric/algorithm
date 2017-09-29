@@ -22,7 +22,7 @@ int main(int argc,char *argv[])
     show_array(array_first, array_last);
     sort(array_first, array_last + 1);
 
-    printf("finish insertion-sort !!!\n");
+    printf("finish insertion-sort !!!\n\n");
     show_array(array_first, array_last);
 
     return 0;
