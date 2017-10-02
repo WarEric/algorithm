@@ -110,17 +110,17 @@ Heap* load_data(char *file)
 
 void show_heap(Heap *heap)
 {
-	int i,linecount;
-	for(int i = 0, linecount = 0; i < heap->size; i++, linecount++)
+	int i, line = 1;
+	for(i = 0; i < heap->size; i++)
 	{
-		printf("%6d", (*(heap->array+i)).key);
-		if(linecount == 4)
+		printf("%6d  ", (heap->array+i)->key);
+		if(4 == line )
 		{
-			linecount = 0;
 			putchar('\n');
+			line = 0;
 		}
+		line++;
 	}
-
 	putchar('\n');
 }
 
