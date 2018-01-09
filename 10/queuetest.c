@@ -1,3 +1,8 @@
+/*
+ * 对队列结构进行测试
+ * by wareric@163.com
+ * 2018-1-9
+ */
 #include <stdio.h>
 #include "queue.h"
 int main()
