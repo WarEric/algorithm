@@ -1,3 +1,9 @@
+/*
+ * 红黑树节点相关的类成员函数和非成员函数的实现
+ * 
+ * by wareric@163.com
+ * 2018-4-3 
+ */
 #include "Node.h"
 using std::string;
 
@@ -16,7 +22,6 @@ Node::Node(int key, string color)
 	this->color = color;
 	this->left = NULL;
 	this->right = NULL;
-	this->color = NULL;
 }
 
 int Node::getKey()
