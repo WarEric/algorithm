@@ -2,7 +2,7 @@
  * 测试红黑树实现是否正确的测试代码.
  *
  * by wareric@163.com
- * 2018-04-03
+ * 2018-04-06
  */
 #include<iostream>
 #include"Node.h"

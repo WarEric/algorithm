@@ -6,7 +6,7 @@
  * 大部分操作复杂度为O(lgn).
  *
  * by wareric@163.com
- * 2018-4-3 
+ * 2018-04-03 
  */
 #ifndef RBTREE_H
 #define RBTREE_H

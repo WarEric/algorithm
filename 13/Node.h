@@ -6,7 +6,7 @@
  * 生命结束时未对动态分配的树进行内存的回收。有待优化。
  * 
  * by wareric@163.com
- * 2018-4-3 
+ * 2018-04-06 
  */
 #ifndef NODE_H
 #define NODE_H
