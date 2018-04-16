@@ -20,7 +20,7 @@ int main()
 	while(cin >> x)
 		rbInsertKey(&T, x);
 
-	cout << "\nShow the tree we build by inorder wolk" << endl;
+	cout << "\nShow the tree we build by inorder walk" << endl;
 	inorderTreeWalk(T.root, T.getNil());
 	
 	return 0;

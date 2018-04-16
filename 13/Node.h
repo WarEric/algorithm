@@ -12,24 +12,23 @@
 #define NODE_H
 #include<string>
 
-#define RED string("RED")
-#define BLACK string("BLACK")
+enum Color {RED, BLACK};
 
 class Node{
 	friend bool operator==(const Node &n1, const Node &n2);
 	friend bool operator!=(const Node &n1, const Node &n2);
 	public:
-		Node(int key, std::string color, Node *parent, Node *left, Node *right);
-		Node(int key, std::string color);
+		Node(int key, Color color, Node *parent, Node *left, Node *right);
+		Node(int key, Color color);
 		~Node(){};
 		int getKey();
-		std::string getColor();
+		Color getColor();
 		void setKey(int key);
-		void setColor(std::string color);
+		void setColor(Color color);
 		Node *parent, *left, *right;
 	private:
 		int key;
-		std::string color;
+		Color color;
 };
 
 inline

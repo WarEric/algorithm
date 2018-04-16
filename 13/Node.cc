@@ -7,7 +7,7 @@
 #include "Node.h"
 using std::string;
 
-Node::Node(int key, string color, Node *parent, Node *left, Node *right)
+Node::Node(int key, Color color, Node *parent, Node *left, Node *right)
 {
 	this->key = key;
 	this->parent = parent;
@@ -16,7 +16,7 @@ Node::Node(int key, string color, Node *parent, Node *left, Node *right)
 	this->color = color;
 }
 
-Node::Node(int key, string color)
+Node::Node(int key, Color color)
 {
 	this->key = key;
 	this->color = color;
@@ -29,7 +29,7 @@ int Node::getKey()
 	return key;
 }
 
-string Node::getColor()
+Color Node::getColor()
 {
 	return color;
 }
@@ -39,7 +39,7 @@ void Node::setKey(int key)
 	this->key = key;
 }
 
-void Node::setColor(string color)
+void Node::setColor(Color color)
 {
 	this->color = color;
 }

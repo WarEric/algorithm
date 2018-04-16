@@ -187,7 +187,7 @@ void rbDelete(RBTree *T, Node *z)
 {
 	Node *y = z;
 	Node *x;
-	string y_original_color = y->getColor();
+	Color y_original_color = y->getColor();
 	if(z->left == T->getNil())
 	{
 		x = z->right;
@@ -304,7 +304,7 @@ void inorderTreeWalk(Node *x, const Node *nil)
 	{
 		inorderTreeWalk(x->left, nil);
 		cout << left << "key = " << setw(4) << x->getKey() << " color = "
-		       	<< setw(8) << x->getColor() << endl;
+		       	<< setw(8) << (x->getColor()==RED?"RED":"BLACK")  << endl;
 		inorderTreeWalk(x->right, nil);
 	}
 }

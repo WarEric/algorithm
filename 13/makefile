@@ -1,5 +1,5 @@
 target test: Node.o RBTree.o
-	g++ -o test test.cc Node.o RBTree.o
+	g++ -o test Test.cc Node.o RBTree.o
 Node.o: Node.cc Node.h
 	g++ -c Node.cc
 RBTree.o: RBTree.cc RBTree.h
