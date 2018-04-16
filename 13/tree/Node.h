@@ -8,14 +8,33 @@
  */
 #ifndef NODE_H_
 #define NODE_H_
+
 template <typename T> class Node{
 	public:
 		Node(T key);
-		virtual ~Node();
-		inline T getKey();
-		inline bool setKey();
+		virtual ~Node(){}
 
+		inline T getKey();
+		inline bool setKey(T key);
 	private:
 		T key;
 };
+
+template<typename T> inline
+Node<T>::Node(T key)
+{
+	this.key = key;
+}
+
+template<typename T> inline
+T Node<T>::getKey()
+{
+	return key;
+}
+
+template<typename T> inline
+bool Node<T>::setKey(T key)
+{
+	this.key = key;
+}
 #endif
