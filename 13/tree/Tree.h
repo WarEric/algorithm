@@ -12,6 +12,7 @@
 template <typename T> class Tree{
 	public:
 		Tree(){this.root = nullptr;};
+		Tree(const Tree<T>&);
 		inline virtual ~Tree();
 
 		virtual bool insert(Node<T> *node);
@@ -26,6 +27,10 @@ template <typename T> class Tree{
 
 		virtual Node<T>* predecessor(){return nullptr;}
 		virtual Node<T>* successor(){return nullptr;}
+
+		Tree<T>& operator=(const Tree<T> &orig);
+		bool operator==(const Tree<T> &tree);
+		bool operator!=(const Tree<T> &tree);
 	private:
 		Node<T> *root;
 };

@@ -2,6 +2,12 @@
 #include"Node.h"
 
 template <typename T>
+Tree<T>::Tree(const Tree<T> &tree)
+{
+	root = tree.root;
+}
+
+template <typename T>
 bool Tree<T>::insert(Node<T> *node)
 {
 	if(root != nullptr) 
@@ -66,4 +72,24 @@ Node<T>* Tree<T>::search(T key)
 	if(root->getKey() != key)
 	       	return nullptr;
 	return root;
+}
+
+template <typename T>
+Tree<T>&  Tree<T>::operator=(const Tree<T> &orig)
+{
+	root = orig.root;
+}
+
+template <typename T>
+bool Tree<T>::operator==(const Tree<T> &tree)
+{
+	if(root != tree.root)
+		return false;
+	return true;
+}
+
+template <typename T>
+bool Tree<T>::operator!=(const Tree<T> &tree)
+{
+	return !(this == tree);
 }
