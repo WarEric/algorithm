@@ -11,19 +11,75 @@
 
 template <typename T> class Node{
 	public:
-		Node(T key);
-		Node(const Node<T>&);
+		Node(T key):key(key){}
+		Node(const Node &);
 		virtual ~Node(){}
 
-		T getKey();
+		T getKey()const;
 		bool setKey(T key);
 
-		Node<T>& operator=(const Node<T> &orig); 
-		bool operator==(const Node<T> &node);
-		bool operator!=(const Node<T> &node);
-		bool operator<(const Node<T> &node);
-		bool operator>(const Node<T> &node);
+		Node<T>& operator=(const Node &orig); 
+		bool operator==(const Node &node);
+		bool operator!=(const Node &node);
+		bool operator<(const Node &node);
+		bool operator>(const Node &node);
 	private:
 		T key;
 };
+
+template<typename T>
+Node<T>::Node(const Node &orig)
+{
+	key(orig.key);
+}
+
+template<typename T>
+T Node<T>::getKey() const
+{
+	return key;
+}
+
+template<typename T>
+bool Node<T>::setKey(T key)
+{
+	this->key = key;
+}
+
+template<typename T>
+Node<T>& Node<T>::operator=(const Node &orig)
+{
+	key = orig.key;
+}
+
+template<typename T>
+bool Node<T>::operator==(const Node &node)
+{
+	if(key != node.key)
+		return false;
+	return true;
+}
+
+template<typename T>
+bool Node<T>::operator!=(const Node &node)
+{
+	if(key != node.key)
+		return true;
+	return false;
+}
+
+template<typename T>
+bool Node<T>::operator<(const Node &node)
+{
+	if(key < node.key) 
+		return true;
+	return false;
+}
+
+template<typename T>
+bool Node<T>::operator>(const Node &node)
+{
+	if(key > node.key) 
+		return true;
+	return false;
+}
 #endif
