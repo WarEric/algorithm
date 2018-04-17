@@ -12,29 +12,18 @@
 template <typename T> class Node{
 	public:
 		Node(T key);
+		Node(const Node<T>&);
 		virtual ~Node(){}
 
-		inline T getKey();
-		inline bool setKey(T key);
+		T getKey();
+		bool setKey(T key);
+
+		Node<T>& operator=(const Node<T> &orig); 
+		bool operator==(const Node<T> &node);
+		bool operator!=(const Node<T> &node);
+		bool operator<(const Node<T> &node);
+		bool operator>(const Node<T> &node);
 	private:
 		T key;
 };
-
-template<typename T> inline
-Node<T>::Node(T key)
-{
-	this.key = key;
-}
-
-template<typename T> inline
-T Node<T>::getKey()
-{
-	return key;
-}
-
-template<typename T> inline
-bool Node<T>::setKey(T key)
-{
-	this.key = key;
-}
 #endif
