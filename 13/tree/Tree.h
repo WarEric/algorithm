@@ -25,8 +25,8 @@ template <typename T> class Tree{
 		virtual Node<T>* max();
 		virtual Node<T>* search(T key);
 
-		virtual Node<T>* predecessor(){return nullptr;}
-		virtual Node<T>* successor(){return nullptr;}
+		virtual Node<T>* predecessor(Node<T> *x){return nullptr;}
+		virtual Node<T>* successor(Node<T> *x){return nullptr;}
 
 		//delete all nodes 
 		virtual bool destroy();

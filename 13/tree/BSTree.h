@@ -22,11 +22,12 @@ template<typename T> class BSTree : public Tree<T>{
 		virtual bool del(T key) override;
 
 		virtual BSTNode<T>* min() override;
+		virtual BSTNode<T>* min(BSTNode<T> *x);
 		virtual BSTNode<T>* max() override;
+		virtual BSTNode<T>* max(BSTNode<T> *x);
 		virtual BSTNode<T>* search(T key) override;
-
-		virtual BSTNode<T>* predecessor() override;
-		virtual BSTNode<T>* successor() override;
+		virtual BSTNode<T>* predecessor(BSTNode<T> *x) override;
+		virtual BSTNode<T>* successor(BSTNode<T> *x) override;
 
 		//delete all nodes
 		virtual bool destroy() override;
@@ -73,6 +74,92 @@ bool BSTree<T>::insert(T key)
 {
 	BSTNode<T> *node = new BSTNode<T>(key);
 	return insert(node);
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::min()
+{
+	if(Tree<T>::root == nullptr)
+		return nullptr;
+	BSTNode<T> *x = Tree<T>::root;
+	while(x->l != nullptr)
+		x = x->l;
+	return x;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::min(BSTNode<T> *x)
+{
+	if(x == nullptr)
+		return nullptr;
+	while(x->l != nullptr)
+		x = x->l;
+	return x;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::max()
+{
+	if(Tree<T>::root == nullptr)
+		return nullptr;
+	BSTNode<T> *x = Tree<T>::root;
+	while(x->r != nullptr)
+		x = x->r;
+	return x;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::max(BSTNode<T> *x)
+{
+	if(x == nullptr)
+		return nullptr;
+	while(x->r != nullptr)
+		x = x->r;
+	return x;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::search(T key)
+{
+	BSTNode<T> *x = Tree<T>::root;
+	while(x != nullptr)
+	{
+		if(x->getKey() == key)
+			return x;
+		else if(x->getKey() < key)
+			x = x->r;
+		else
+			x = x->l;
+	}
+	return x;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::predecessor(BSTNode<T> *x)
+{
+	if(x->l != nullptr)
+		return max(x->l);
+	BSTNode<T> *y = x->p;
+	while(y != nullptr && x == y->l)
+	{
+		x = y;
+		y = y->p;
+	}
+	return y;
+}
+
+template<typename T>
+BSTNode<T>* BSTree<T>::successor(BSTNode<T> *x)
+{
+	if(x->r != nullptr)
+		return min(x->r);
+	BSTNode<T> *y = x->p;
+	while(y != nullptr && x == y->r)
+	{
+		x = y;
+		y = y->p;
+	}
+	return y;
 }
 
 template<typename T>
