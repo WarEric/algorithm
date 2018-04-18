@@ -7,13 +7,14 @@
  */
 #ifndef TREE_H_
 #define TREE_H_
+#include<iostream>
 #include"Node.h"
 
 template <typename T> class Tree{
 	public:
-		Tree(){this.root = nullptr;};
-		Tree(const Tree<T>&);
-		inline virtual ~Tree();
+		Tree():root(nullptr){}
+		Tree(const Tree&);
+		inline virtual ~Tree(){}
 
 		virtual bool insert(Node<T> *node);
 		virtual bool insert(T key);
@@ -28,16 +29,108 @@ template <typename T> class Tree{
 		virtual Node<T>* predecessor(){return nullptr;}
 		virtual Node<T>* successor(){return nullptr;}
 
-		Tree<T>& operator=(const Tree<T> &orig);
-		bool operator==(const Tree<T> &tree);
-		bool operator!=(const Tree<T> &tree);
+		//delete all nodes 
+		virtual bool destroy();
+
+		Tree<T>& operator=(const Tree &orig);
+		bool operator==(const Tree &tree);
+		bool operator!=(const Tree &tree);
 	private:
 		Node<T> *root;
 };
 #endif
 
-template<typename T> inline
-Tree<T>::~Tree()
+template<typename T>
+bool Tree<T>::destroy()
 {
 	if(root != nullptr) delete root;
+}
+
+template <typename T>
+Tree<T>::Tree(const Tree &tree)
+{
+	root = tree.root;
+}
+
+template <typename T>
+bool Tree<T>::insert(Node<T> *node)
+{
+	if(root != nullptr) 
+		return false;
+	root = node;
+	return true;
+}
+
+template <typename T>
+bool Tree<T>::insert(T key)
+{
+	if(root != nullptr) 
+		return false;
+	Node<T> *ptr = new Node<T>(key);
+	return insert(ptr);
+}
+
+template <typename T>
+bool Tree<T>::del(Node<T> *node)
+{
+	if(root == nullptr) return false;
+	if(root->getKey() != node->getKey()) return false;
+	delete root;
+	root = nullptr;
+	return true;
+}
+
+template <typename T>
+bool Tree<T>::del(T key)
+{
+	Node<T> *ptr = search(key);
+	if(ptr == nullptr) 
+		return false;
+	return del(ptr);
+}
+
+template <typename T>
+Node<T>* Tree<T>::min()
+{
+	if(root == nullptr) 
+		return nullptr;
+	return root;
+}
+
+template <typename T>
+Node<T>* Tree<T>::max()
+{
+	if(root == nullptr) 
+		return nullptr;
+	return root;
+}
+
+template <typename T>
+Node<T>* Tree<T>::search(T key)
+{
+	if(root == nullptr)
+	       	return nullptr;
+	if(root->getKey() != key)
+	       	return nullptr;
+	return root;
+}
+
+template <typename T>
+Tree<T>&  Tree<T>::operator=(const Tree &orig)
+{
+	root = orig.root;
+}
+
+template <typename T>
+bool Tree<T>::operator==(const Tree &tree)
+{
+	if(root != tree.root)
+		return false;
+	return true;
+}
+
+template <typename T>
+bool Tree<T>::operator!=(const Tree &tree)
+{
+	return !(this == tree);
 }
