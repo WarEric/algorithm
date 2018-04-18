@@ -35,7 +35,7 @@ template <typename T> class Tree{
 		Tree<T>& operator=(const Tree &orig);
 		bool operator==(const Tree &tree);
 		bool operator!=(const Tree &tree);
-	private:
+	protected:
 		Node<T> *root;
 };
 
