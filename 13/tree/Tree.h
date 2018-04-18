@@ -7,7 +7,6 @@
  */
 #ifndef TREE_H_
 #define TREE_H_
-#include<iostream>
 #include"Node.h"
 
 template <typename T> class Tree{
@@ -31,6 +30,7 @@ template <typename T> class Tree{
 
 		//delete all nodes 
 		virtual bool destroy();
+		virtual Node<T>* copy(Node<T>* root);
 
 		Tree<T>& operator=(const Tree &orig);
 		bool operator==(const Tree &tree);
@@ -38,13 +38,6 @@ template <typename T> class Tree{
 	private:
 		Node<T> *root;
 };
-#endif
-
-template<typename T>
-bool Tree<T>::destroy()
-{
-	if(root != nullptr) delete root;
-}
 
 template <typename T>
 Tree<T>::Tree(const Tree &tree)
@@ -115,6 +108,21 @@ Node<T>* Tree<T>::search(T key)
 	return root;
 }
 
+template<typename T>
+bool Tree<T>::destroy()
+{
+	if(root != nullptr) delete root;
+
+}
+
+template<typename T>
+Node<T>* Tree<T>::copy(Node<T>* root)
+{
+	if(root == nullptr)
+		return nullptr;
+	return new Node<T>(root->getKey());
+}
+
 template <typename T>
 Tree<T>&  Tree<T>::operator=(const Tree &orig)
 {
@@ -134,3 +142,4 @@ bool Tree<T>::operator!=(const Tree &tree)
 {
 	return !(this == tree);
 }
+#endif

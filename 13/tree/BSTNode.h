@@ -6,7 +6,6 @@
  */
 #ifndef BSTNODE_H_
 #define BSTNODE_H_
-#include<iostream>
 #include"Node.h"
 template<typename T> class BSTNode : public Node<T>{
 	public:
