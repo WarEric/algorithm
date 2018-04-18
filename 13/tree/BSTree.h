@@ -17,7 +17,7 @@ using std::stack;
 
 template<typename T> class BSTree : public Tree<T>{
 	public:
-		BSTree():Tree<T>(nullptr){}
+		BSTree(){}
 		BSTree(const BSTree&);
 		inline virtual ~BSTree(){}
 
