@@ -7,8 +7,12 @@
  */
 #ifndef BSTREE_H_
 #define BSTREE_H_
+#include<iostream>
 #include"Tree.h"
 #include"BSTNode.h"
+using std::cout;
+using std::endl;
+
 template<typename T> class BSTree : public Tree<T>{
 	public:
 		BSTree():Tree<T>(nullptr){}
@@ -28,6 +32,13 @@ template<typename T> class BSTree : public Tree<T>{
 		virtual BSTNode<T>* search(T key) override;
 		virtual BSTNode<T>* predecessor(BSTNode<T> *x) override;
 		virtual BSTNode<T>* successor(BSTNode<T> *x) override;
+
+		virtual void preorderTreeWalk();
+		virtual void preorderTreeWalk(BSTNode<T> *x);
+		virtual void inorderTreeWalk();
+		virtual void inorderTreeWalk(BSTNode<T> *x);
+		virtual void postorderTreeWalk();
+		virtual void postorderTreeWalk(BSTNode<T> *x);
 
 		//delete all nodes
 		virtual bool destroy() override;
@@ -160,6 +171,75 @@ BSTNode<T>* BSTree<T>::successor(BSTNode<T> *x)
 		y = y->p;
 	}
 	return y;
+}
+
+template<typename T>
+void BSTree<T>::preorderTreeWalk()
+{
+	BSTNode<T> *x = Tree<T>::root;
+	if(x != nullptr)
+	{
+		cout << x->getKey() << endl;
+		preorderTreeWalk(x->l);
+		preorderTreeWalk(x->r);
+	}
+}
+
+template<typename T>
+void BSTree<T>::preorderTreeWalk(BSTNode<T> *x)
+{
+	if(x != nullptr)
+	{
+		cout << x->getKey() << endl;
+		preorderTreeWalk(x->l);
+		preorderTreeWalk(x->r);
+	}
+}
+
+template<typename T>
+void BSTree<T>::inorderTreeWalk()
+{
+	BSTNode<T> *x = Tree<T>::root;
+	if(x != nullptr)
+	{
+		preorderTreeWalk(x->l);
+		cout << x->getKey() << endl;
+		preorderTreeWalk(x->r);
+	}
+}
+
+template<typename T>
+void BSTree<T>::inorderTreeWalk(BSTNode<T> *x)
+{
+	if(x != nullptr)
+	{
+		preorderTreeWalk(x->l);
+		cout << x->getKey() << endl;
+		preorderTreeWalk(x->r);
+	}
+}
+
+template<typename T>
+void BSTree<T>::postorderTreeWalk()
+{
+	BSTNode<T> *x = Tree<T>::root;
+	if(x != nullptr)
+	{
+		preorderTreeWalk(x->l);
+		preorderTreeWalk(x->r);
+		cout << x->getKey() << endl;
+	}
+}
+
+template<typename T>
+void BSTree<T>::postorderTreeWalk(BSTNode<T> *x)
+{
+	if(x != nullptr)
+	{
+		preorderTreeWalk(x->l);
+		preorderTreeWalk(x->r);
+		cout << x->getKey() << endl;
+	}
 }
 
 template<typename T>
