@@ -8,10 +8,12 @@
 #ifndef BSTREE_H_
 #define BSTREE_H_
 #include<iostream>
+#include<stack>
 #include"Tree.h"
 #include"BSTNode.h"
 using std::cout;
 using std::endl;
+using std::stack;
 
 template<typename T> class BSTree : public Tree<T>{
 	public:
@@ -24,6 +26,8 @@ template<typename T> class BSTree : public Tree<T>{
 
 		virtual bool del(BSTNode<T> *node) override;
 		virtual bool del(T key) override;
+		// subtree of v replaces that of u
+		void transplant(BSTNode<T> *u, BSTNode<T> *v);
 
 		virtual BSTNode<T>* min() override;
 		virtual BSTNode<T>* min(BSTNode<T> *x);
@@ -85,6 +89,55 @@ bool BSTree<T>::insert(T key)
 {
 	BSTNode<T> *node = new BSTNode<T>(key);
 	return insert(node);
+}
+
+template<typename T>
+bool BSTree<T>::del(BSTNode<T> *node)
+{
+	if(node->l == nullptr)
+		transplant(node, node->l);
+	else if(node->r == nullptr)
+		transplant(node, node->r);
+	else{
+		BSTree<T> *y = min(node->r);
+		if(y->p != node)
+		{
+			transplant(y, y->r);
+			y->r = node->r;
+			y->r->p = y;
+		}
+		transplant(node, y);
+		y->l = node->l;
+		y->l->p = y;
+	}
+	return true;
+}
+
+template<typename T>
+bool BSTree<T>::del(T key)
+{
+	BSTree<T> *x = search(key);
+	if(x == nullptr)
+		return false;
+	if(del(x) == true)
+	{
+		delete x;
+		return true;
+	}else
+		return false;
+}
+
+template<typename T>
+void BSTree<T>::transplant(BSTNode<T> *u, BSTNode<T> *v)
+{
+	if(u->p == nullptr)
+		Tree<T> root = v;
+	else if(u == u->p->l)
+		u->p->l = v;
+	else
+		u->p->r = v;
+	if(v != nullptr)
+		v->p = u->p;
 }
 
 template<typename T>
@@ -242,6 +295,31 @@ void BSTree<T>::postorderTreeWalk(BSTNode<T> *x)
 	}
 }
 
+template<typename T>
+bool BSTree<T>::destroy()
+{
+	
+	if(Tree<T>::root == nullptr)
+		return true;
+
+	BSTNode<T> *rt = dynamic_cast<BSTNode<T> *>(Tree<T>::root);
+	stack<BSTNode<T> *> stk;
+	stk.push(rt);
+
+	while(!stk.empty())
+	{
+		BSTNode<T> *ptr = stk.top();
+		stk.pop();
+
+		if(ptr->r != nullptr)
+			stk.push(ptr->r);
+		if(ptr->l != nullptr)
+			stk.push(ptr->l);
+		delete ptr;
+	}
+	Tree<T>::root = nullptr;
+	return true;
+}
 template<typename T>
 BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 {
