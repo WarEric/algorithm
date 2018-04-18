@@ -7,6 +7,7 @@
  */
 #ifndef BSTREE_H_
 #define BSTREE_H_
+#include"Tree.h"
 #include"BSTNode.h"
 template<typename T> class BSTree : public Tree<T>{
 	public:
@@ -35,5 +36,36 @@ template<typename T> class BSTree : public Tree<T>{
 		Tree<T>& operator=(const BSTree &orig);
 		bool operator==(const BSTree &tree);
 		bool operator!=(const BSTree &tree);
+};
+
+template<typename T>
+BSTree<T>::BSTree(const BSTree &orig)
+{
+	Tree<T>::root = copy(orig.root);
 }
+
+template<typename T>
+BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
+{
+	BSTNode<T> *node;
+	BSTNode<T> *left;
+	BSTNode<T> *right;
+
+	if(root == nullptr)
+		return nullptr;
+	if(root->l != nullptr)
+		left = copy(root->l);
+	if(root->r != nullptr)
+		right = copy(root->r);
+
+	node = new BSTNode<T>(root->getKey(), nullptr, left, right);
+
+	if(left != nullptr)
+		left->p = node;
+	if(right != nullptr)
+		right->p = node;
+
+	return node;
+}
+
 #endif
