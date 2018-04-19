@@ -56,7 +56,6 @@ template<typename T> class BSTree{
 template<typename T>
 BSTree<T>::BSTree(const BSTree &orig)
 {
-	cout << "this is copy construct !!! "<< endl;
 	root = copy(orig.root);
 }
 
@@ -329,9 +328,9 @@ bool BSTree<T>::destroy()
 template<typename T>
 BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 {
-	BSTNode<T> *node;
-	BSTNode<T> *left;
-	BSTNode<T> *right;
+	BSTNode<T> *node = nullptr;
+	BSTNode<T> *left = nullptr;
+	BSTNode<T> *right = nullptr;
 
 	if(root == nullptr)
 		return nullptr;
@@ -341,7 +340,6 @@ BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 		right = copy(root->r);
 
 	node = new BSTNode<T>(root->getKey(), nullptr, left, right);
-	cout << "copying " << root->getKey() << endl;
 
 	if(left != nullptr)
 		left->p = node;
@@ -349,6 +347,66 @@ BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 		right->p = node;
 
 	return node;
+}
+
+template<typename T>
+BSTree<T>& BSTree<T>::operator=(const BSTree &orig)
+{
+	root = copy(orig.root);
+}
+
+template<typename T>
+bool BSTree<T>::operator==(const BSTree &dst)
+{
+	stack<BSTNode<T> *> stkd, stks;
+	BSTNode<T> *d = dst.root;
+	BSTNode<T> *s = root;
+	if(d == nullptr)
+	{
+		if(s == nullptr)
+			return true;
+		else
+			return false;
+	}else{
+		if(s ==  nullptr)
+			return false;
+	}
+
+	stkd.push(d);
+	stks.push(s);
+	while((!stkd.empty()) && (!stks.empty()))
+	{
+		d = stkd.top();
+		stkd.pop();
+
+		s = stks.top();
+		stks.pop();
+
+		if(*d != *s)
+			return false;
+
+		if(d->r != nullptr)
+			stkd.push(d->r);
+		if(d->l != nullptr)
+			stkd.push(d->l);
+
+		if(s->r != nullptr)
+			stks.push(s->r);
+		if(s->l != nullptr)
+			stks.push(s->l);
+	}
+
+	//both equal to zero
+	if(stkd.size() != stks.size())
+		return false;
+
+	return true;
+}
+
+template<typename T>
+bool BSTree<T>::operator!=(const BSTree &tree)
+{
+	return !(*this == tree);
 }
 
 #endif
