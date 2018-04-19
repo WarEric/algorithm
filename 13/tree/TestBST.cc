@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 	cout << "please input the number you want to search and delete:___\b\b\b";
 	while(cin >> var)
 	{
-		BSTNode<int> *ptr = search(var);
+		BSTNode<int> *ptr = tree.search(var);
 		if(ptr == nullptr)
 			cout  << var << " doesn't exist in the tree." << endl;
 		else{
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 				cout << var << "'s predecessor is " << pre->getKey() << endl;
 			}
 
-			BSTNode<int> *suc = predecessor(ptr);
+			BSTNode<int> *suc = tree.predecessor(ptr);
 			if(suc == nullptr)
 				cout << var << " don't have predecessor" << endl;
 			else{

@@ -1,6 +1,5 @@
 /*
- * BST二叉搜索树的实现，继承自Tree.需要实现其中的虚函数，
- * 并且增加了新的函数
+ * BST二叉搜索树的实现
  *
  * by wareric@163.com
  * 2018-4-18
@@ -9,74 +8,74 @@
 #define BSTREE_H_
 #include<iostream>
 #include<stack>
-#include"Tree.h"
 #include"BSTNode.h"
 using std::cout;
 using std::endl;
 using std::stack;
 
-template<typename T> class BSTree : public Tree<T>{
+template<typename T> class BSTree{
 	public:
 		BSTree(){}
 		BSTree(const BSTree&);
-		inline virtual ~BSTree(){}
+		virtual ~BSTree(){}
 
-		virtual bool insert(BSTNode<T> *node) override;
-		virtual bool insert(T key) override;
+		bool insert(T key);
+		bool del(T key);
 
-		virtual bool del(BSTNode<T> *node) override;
-		virtual bool del(T key) override;
-		// subtree of v replaces that of u
-		void transplant(BSTNode<T> *u, BSTNode<T> *v);
+		BSTNode<T>* min();
+		BSTNode<T>* min(BSTNode<T> *x);
+		BSTNode<T>* max();
+		BSTNode<T>* max(BSTNode<T> *x);
+		BSTNode<T>* search(T key);
+		BSTNode<T>* predecessor(BSTNode<T> *x);
+		BSTNode<T>* successor(BSTNode<T> *x);
 
-		virtual BSTNode<T>* min() override;
-		virtual BSTNode<T>* min(BSTNode<T> *x);
-		virtual BSTNode<T>* max() override;
-		virtual BSTNode<T>* max(BSTNode<T> *x);
-		virtual BSTNode<T>* search(T key) override;
-		virtual BSTNode<T>* predecessor(BSTNode<T> *x) override;
-		virtual BSTNode<T>* successor(BSTNode<T> *x) override;
-
-		virtual void preorderTreeWalk();
-		virtual void preorderTreeWalk(BSTNode<T> *x);
-		virtual void inorderTreeWalk();
-		virtual void inorderTreeWalk(BSTNode<T> *x);
-		virtual void postorderTreeWalk();
-		virtual void postorderTreeWalk(BSTNode<T> *x);
+		void preorderTreeWalk();
+		void preorderTreeWalk(BSTNode<T> *x);
+		void inorderTreeWalk();
+		void inorderTreeWalk(BSTNode<T> *x);
+		void postorderTreeWalk();
+		void postorderTreeWalk(BSTNode<T> *x);
 
 		//delete all nodes
-		virtual bool destroy() override;
+		bool destroy();
 		//recursive copy 
-		virtual BSTNode<T>* copy(BSTNode<T>* root) override;
+		BSTNode<T>* copy(BSTNode<T>* root);
 
-		Tree<T>& operator=(const BSTree &orig);
+		BSTree<T>& operator=(const BSTree &orig);
 		bool operator==(const BSTree &tree);
 		bool operator!=(const BSTree &tree);
+	private:
+		bool insert(BSTNode<T> *node);
+		bool del(BSTNode<T> *node);
+		// subtree of v replaces that of u
+		void transplant(BSTNode<T> *u, BSTNode<T> *v);
+		BSTNode<T> *root;
 };
 
 template<typename T>
 BSTree<T>::BSTree(const BSTree &orig)
 {
-	Tree<T>::root = copy(orig.root);
+	root = copy(orig.root);
 }
 
 template<typename T>
 bool BSTree<T>::insert(BSTNode<T> *node)
 {
 	BSTNode<T> *y = nullptr;
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	while(x != nullptr)
 	{
 		y = x;
-		if(node->getKey() < Node<T>::getKey())
+		if(node->getKey() < x->key)
 			x = x->l;
 		else
 			x = x->r;
 	}
 	node->p = y;
 	if(y == nullptr)
-		Tree<T>::root = y;
-	else if(node->getKey() < y->getKey)
+		root = y;
+	else if(node->getKey() < y->getKey())
 		y->l = node;
 	else
 		y->r = node;
@@ -99,7 +98,7 @@ bool BSTree<T>::del(BSTNode<T> *node)
 	else if(node->r == nullptr)
 		transplant(node, node->r);
 	else{
-		BSTree<T> *y = min(node->r);
+		BSTNode<T> *y = min(node->r);
 		if(y->p != node)
 		{
 			transplant(y, y->r);
@@ -116,7 +115,7 @@ bool BSTree<T>::del(BSTNode<T> *node)
 template<typename T>
 bool BSTree<T>::del(T key)
 {
-	BSTree<T> *x = search(key);
+	BSTNode<T> *x = search(key);
 	if(x == nullptr)
 		return false;
 	if(del(x) == true)
@@ -131,7 +130,7 @@ template<typename T>
 void BSTree<T>::transplant(BSTNode<T> *u, BSTNode<T> *v)
 {
 	if(u->p == nullptr)
-		Tree<T> root = v;
+		root = v;
 	else if(u == u->p->l)
 		u->p->l = v;
 	else
@@ -143,9 +142,9 @@ void BSTree<T>::transplant(BSTNode<T> *u, BSTNode<T> *v)
 template<typename T>
 BSTNode<T>* BSTree<T>::min()
 {
-	if(Tree<T>::root == nullptr)
+	if(root == nullptr)
 		return nullptr;
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	while(x->l != nullptr)
 		x = x->l;
 	return x;
@@ -164,9 +163,9 @@ BSTNode<T>* BSTree<T>::min(BSTNode<T> *x)
 template<typename T>
 BSTNode<T>* BSTree<T>::max()
 {
-	if(Tree<T>::root == nullptr)
+	if(root == nullptr)
 		return nullptr;
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	while(x->r != nullptr)
 		x = x->r;
 	return x;
@@ -185,7 +184,7 @@ BSTNode<T>* BSTree<T>::max(BSTNode<T> *x)
 template<typename T>
 BSTNode<T>* BSTree<T>::search(T key)
 {
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	while(x != nullptr)
 	{
 		if(x->getKey() == key)
@@ -229,7 +228,7 @@ BSTNode<T>* BSTree<T>::successor(BSTNode<T> *x)
 template<typename T>
 void BSTree<T>::preorderTreeWalk()
 {
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	if(x != nullptr)
 	{
 		cout << x->getKey() << endl;
@@ -252,7 +251,7 @@ void BSTree<T>::preorderTreeWalk(BSTNode<T> *x)
 template<typename T>
 void BSTree<T>::inorderTreeWalk()
 {
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	if(x != nullptr)
 	{
 		preorderTreeWalk(x->l);
@@ -275,7 +274,7 @@ void BSTree<T>::inorderTreeWalk(BSTNode<T> *x)
 template<typename T>
 void BSTree<T>::postorderTreeWalk()
 {
-	BSTNode<T> *x = Tree<T>::root;
+	BSTNode<T> *x = root;
 	if(x != nullptr)
 	{
 		preorderTreeWalk(x->l);
@@ -299,10 +298,10 @@ template<typename T>
 bool BSTree<T>::destroy()
 {
 	
-	if(Tree<T>::root == nullptr)
+	if(root == nullptr)
 		return true;
 
-	BSTNode<T> *rt = dynamic_cast<BSTNode<T> *>(Tree<T>::root);
+	BSTNode<T> *rt = root;
 	stack<BSTNode<T> *> stk;
 	stk.push(rt);
 
@@ -317,7 +316,7 @@ bool BSTree<T>::destroy()
 			stk.push(ptr->l);
 		delete ptr;
 	}
-	Tree<T>::root = nullptr;
+	root = nullptr;
 	return true;
 }
 template<typename T>
