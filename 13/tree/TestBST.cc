@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 		if(tree.insert(var) == true)
 			cout << "insert "<< var << " successful" << endl;
 		else
-			cout << " error while insert "<< var << endl;
+			cout << "error while insert "<< var << endl;
 	}
 	input.close();
 
@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
 	cout << "postorderWalkTree:" << endl;
 	tree.postorderTreeWalk();
 
-	cout << " max = " << (tree.max())->getKey() << endl;
-	cout << " min = " << (tree.min())->getKey() << endl;
+	cout << "max = " << (tree.max())->getKey() << endl;
+	cout << "min = " << (tree.min())->getKey() << endl;
 
 	cout << "please input the number you want to search and delete:___\b\b\b";
 	while(cin >> var)
@@ -49,11 +49,11 @@ int main(int argc, char* argv[])
 				cout << var << "'s predecessor is " << pre->getKey() << endl;
 			}
 
-			BSTNode<int> *suc = tree.predecessor(ptr);
+			BSTNode<int> *suc = tree.successor(ptr);
 			if(suc == nullptr)
-				cout << var << " don't have predecessor" << endl;
+				cout << var << " don't have successor" << endl;
 			else{
-				cout << var << "'s predecessor is " << suc->getKey() << endl;
+				cout << var << "'s successor is " << suc->getKey() << endl;
 			}
 		}
 
@@ -64,17 +64,21 @@ int main(int argc, char* argv[])
 			cout << "delete " << var << " success, inorderWalkTree:" << endl;
 			tree.inorderTreeWalk();
 		}
+
+		cout << "please input the number you want to search and delete:___\b\b\b";
 	}
+	cout << "\n";
 
-/*
-	BSTNode<int> cp = tree;
+
+	BSTree<int> cp = tree;
 	cout << "copy tree to cp, inorderWalkTree" << endl;
-	tree.inorderWalkTree();
+	cp.inorderTreeWalk();
 
-	cout << "cp == tree : " << (cp == tree) << endl;
-*/
+//	cout << "cp == tree : " << (cp == tree) << endl;
 
 	tree.destroy();
+	cout << "After tree.destroy(), inorderTreeWalk:" << endl;
+	tree.inorderTreeWalk();
 
 	return 0;
 	

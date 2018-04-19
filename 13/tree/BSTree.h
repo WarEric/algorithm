@@ -15,9 +15,9 @@ using std::stack;
 
 template<typename T> class BSTree{
 	public:
-		BSTree(){}
+		BSTree():root(nullptr){}
 		BSTree(const BSTree&);
-		virtual ~BSTree(){}
+		~BSTree();
 
 		bool insert(T key);
 		bool del(T key);
@@ -56,7 +56,14 @@ template<typename T> class BSTree{
 template<typename T>
 BSTree<T>::BSTree(const BSTree &orig)
 {
+	cout << "this is copy construct !!! "<< endl;
 	root = copy(orig.root);
+}
+
+template<typename T>
+BSTree<T>::~BSTree()
+{
+	destroy();
 }
 
 template<typename T>
@@ -74,7 +81,7 @@ bool BSTree<T>::insert(BSTNode<T> *node)
 	}
 	node->p = y;
 	if(y == nullptr)
-		root = y;
+		root = node;
 	else if(node->getKey() < y->getKey())
 		y->l = node;
 	else
@@ -94,9 +101,9 @@ template<typename T>
 bool BSTree<T>::del(BSTNode<T> *node)
 {
 	if(node->l == nullptr)
-		transplant(node, node->l);
-	else if(node->r == nullptr)
 		transplant(node, node->r);
+	else if(node->r == nullptr)
+		transplant(node, node->l);
 	else{
 		BSTNode<T> *y = min(node->r);
 		if(y->p != node)
@@ -254,9 +261,9 @@ void BSTree<T>::inorderTreeWalk()
 	BSTNode<T> *x = root;
 	if(x != nullptr)
 	{
-		preorderTreeWalk(x->l);
+		inorderTreeWalk(x->l);
 		cout << x->getKey() << endl;
-		preorderTreeWalk(x->r);
+		inorderTreeWalk(x->r);
 	}
 }
 
@@ -265,9 +272,9 @@ void BSTree<T>::inorderTreeWalk(BSTNode<T> *x)
 {
 	if(x != nullptr)
 	{
-		preorderTreeWalk(x->l);
+		inorderTreeWalk(x->l);
 		cout << x->getKey() << endl;
-		preorderTreeWalk(x->r);
+		inorderTreeWalk(x->r);
 	}
 }
 
@@ -277,8 +284,8 @@ void BSTree<T>::postorderTreeWalk()
 	BSTNode<T> *x = root;
 	if(x != nullptr)
 	{
-		preorderTreeWalk(x->l);
-		preorderTreeWalk(x->r);
+		postorderTreeWalk(x->l);
+		postorderTreeWalk(x->r);
 		cout << x->getKey() << endl;
 	}
 }
@@ -288,8 +295,8 @@ void BSTree<T>::postorderTreeWalk(BSTNode<T> *x)
 {
 	if(x != nullptr)
 	{
-		preorderTreeWalk(x->l);
-		preorderTreeWalk(x->r);
+		postorderTreeWalk(x->l);
+		postorderTreeWalk(x->r);
 		cout << x->getKey() << endl;
 	}
 }
@@ -334,6 +341,7 @@ BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 		right = copy(root->r);
 
 	node = new BSTNode<T>(root->getKey(), nullptr, left, right);
+	cout << "copying " << root->getKey() << endl;
 
 	if(left != nullptr)
 		left->p = node;
