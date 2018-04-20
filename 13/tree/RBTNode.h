@@ -21,7 +21,7 @@ template<typename T> class RBTNode{
 
 		void setKey(T key){this.key = key;}
 		T getKey(){return key;}
-		void setColor(Color color){this.color = color;}
+		void setColor(Color color){this->color = color;}
 		Color getColor(){return color;}
 
 		RBTNode<T>& operator=(const RBTNode &orig);

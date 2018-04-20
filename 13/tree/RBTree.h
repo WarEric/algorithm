@@ -83,7 +83,7 @@ RBTree<T>::~RBTree()
 template<typename T>
 bool RBTree<T>::insert(T key)
 {
-	RBTNode<T> *node = new RBTNode<T>(key);
+	RBTNode<T> *node = new RBTNode<T>(key, RED);
 	return insert(node);
 }
 
@@ -382,7 +382,7 @@ bool RBTree<T>::insert(RBTNode<T> *z)
 		else
 			x = x->r;
 	}
-	z->parent = y;
+	z->p = y;
 	if(y == nil)
 		root = z;
 	else if(z->getKey() < y->getKey())
@@ -474,10 +474,10 @@ bool RBTree<T>::del(RBTNode<T> *z)
 		y->l->p = y;
 		y->setColor(z->getColor());
 	}
-	delete z;
 
 	if(y_original_color == BLACK)
 		delFixUp(x);
+	return true;
 }
 
 template<typename T>
