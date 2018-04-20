@@ -353,6 +353,7 @@ BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 template<typename T>
 BSTree<T>& BSTree<T>::operator=(const BSTree &orig)
 {
+	destroy();
 	root = copy(orig.root);
 }
 
