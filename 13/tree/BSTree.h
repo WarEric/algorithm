@@ -325,6 +325,7 @@ bool BSTree<T>::destroy()
 	root = nullptr;
 	return true;
 }
+
 template<typename T>
 BSTNode<T>* BSTree<T>::copy(BSTNode<T> *root)
 {

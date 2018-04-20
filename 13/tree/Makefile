@@ -1,4 +1,4 @@
-BSTree:TestBST.cc BSTree.h BSTNode.h
-	g++ -o BSTree TestBST.cc
+BSTree:RBTNode.h
+	g++ -c RBTree.h
 clean:
-	rm BSTree
+	rm RBTree.h.gch
