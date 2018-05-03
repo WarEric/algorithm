@@ -6,7 +6,7 @@
 #ifndef OSTNODE_H_
 #define OSTNODE_H_
 enum Color {RED, BLACK};
-template<typename T> class RBTree;
+template<typename T> class OSTree;
 
 template<typename T> class OSTNode{
 	friend class OSTree<T>;
@@ -20,7 +20,7 @@ template<typename T> class OSTNode{
 
 		void setKey(T key){this.key = key;}
 		void setColor(Color color){this->color = color;}
-		void setSize(int size){this.size = size;}
+		void setSize(int size){this->size = size;}
 		T getKey(){return key;}
 		Color getColor(){return color;}
 		int getSize(){return size;}

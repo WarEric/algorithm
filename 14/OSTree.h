@@ -17,7 +17,7 @@ using std::stack;
 
 template<typename T> class OSTree{
 	public:
-		OSTree():root(nil){}
+		OSTree():root(nil){ nil->l = nil; nil->r = nil; nil->p = nil;}
 		OSTree(const OSTree&);
 		~OSTree();
 
@@ -68,7 +68,7 @@ template<typename T> class OSTree{
 };
 
 template<typename T>
-OSTNode<T>* OSTree<T>::nil = new OSTNode<T>(0, BLACK);
+OSTNode<T>* OSTree<T>::nil = new OSTNode<T>(0, BLACK, 0);
 
 template<typename T>
 OSTree<T>::OSTree(const OSTree &orig)
@@ -422,7 +422,7 @@ bool OSTree<T>::insert(OSTNode<T> *z)
 	while(x != nil)
 	{
 		y = x;
-		if(z->getKey() < x->getKey())a
+		if(z->getKey() < x->getKey())
 		{
 			x->setSize( x->getSize() + 1 );
 			x = x->l;
@@ -505,15 +505,17 @@ void OSTree<T>::insertFixUp(OSTNode<T> *z)
 template<typename T>
 bool OSTree<T>::del(OSTNode<T> *z)
 {
-	OSTNode<T> *y = z;
+	OSTNode<T> *y = z, *fixsize = nil;
 	OSTNode<T> *x;
 	Color y_original_color = y->getColor();
 	if(z->l == nil)
 	{
 		x = z->r;
+		fixsize = z->p; 
 		transplant(z, z->r);	
 	}else if(z->r == nil){
 		x = z->l;
+		fixsize = z->p;
 		transplant(z, z->l);	
 	}else{
 		y = min(z->r);	
@@ -521,8 +523,10 @@ bool OSTree<T>::del(OSTNode<T> *z)
 		x = y->r;
 		if(y->p == z)
 		{	
+			fixsize = y;
 			x->p = y;
 		}else{
+			fixsize = y->p;
 			transplant(y, y->r);
 			y->r = z->r;
 			y->r->p = y;
@@ -532,6 +536,15 @@ bool OSTree<T>::del(OSTNode<T> *z)
 		y->l->p = y;
 		y->setColor(z->getColor());
 	}
+
+	//fixup size
+	while(fixsize != nil)
+	{
+		int left = fixsize->l->getSize();
+		int right = fixsize->r->getSize();
+		fixsize->setSize(left + right + 1);
+		fixsize = fixsize->p;
+	}	
 
 	if(y_original_color == BLACK)
 		delFixUp(x);
@@ -550,7 +563,10 @@ void OSTree<T>::delFixUp(OSTNode<T> *x)
 			{
 				w->setColor(BLACK);
 				x->p->setColor(RED);
+				OSTNode<T> *temp = x->p;
 				leftRotate(x->p);
+				temp->p->setSize(temp->getSize());
+				temp->setSize( temp->l->getSize() + temp->r->getSize() + 1 );
 				w = x->p->r;
 			}
 
@@ -565,12 +581,18 @@ void OSTree<T>::delFixUp(OSTNode<T> *x)
 					w->l->setColor(BLACK);
 					w->setColor(RED);
 					rightRotate(w);
+					OSTNode<T> *temp = w;
+					temp->p->setSize(temp->getSize());
+					temp->setSize( temp->l->getSize() + temp->r->getSize() + 1 );
 					w = x->p->r;
 				}
 				w->setColor(x->p->getColor());			//case 4
 				x->p->setColor(BLACK);
 				w->r->setColor(BLACK);
+				OSTNode<T> *temp = x->p;
 				leftRotate(x->p);
+				temp->p->setSize(temp->getSize());
+				temp->setSize( temp->l->getSize() + temp->r->getSize() + 1 );
 				x = root;
 			}
 		}else{
@@ -579,7 +601,10 @@ void OSTree<T>::delFixUp(OSTNode<T> *x)
 			{
 				w->setColor(BLACK);
 				x->p->setColor(RED);
+				OSTNode<T> *temp = x->p;
 				rightRotate(x->p);
+				temp->p->setSize(temp->getSize());
+				temp->setSize( temp->l->getSize() + temp->r->getSize() + 1 );
 				w = x->p->l;
 			}
 
@@ -599,7 +624,10 @@ void OSTree<T>::delFixUp(OSTNode<T> *x)
 				w->setColor(x->p->getColor());			//case 4
 				x->p->setColor(BLACK);
 				w->l->setColor(BLACK);
+				OSTNode<T> *temp = x->p;
 				rightRotate(x->p);
+				temp->p->setSize(temp->getSize());
+				temp->setSize( temp->l->getSize() + temp->r->getSize() + 1 );
 				x = root;
 			}
 		}
