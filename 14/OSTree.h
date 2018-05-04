@@ -619,6 +619,8 @@ void OSTree<T>::delFixUp(OSTNode<T> *x)
 					w->r->setColor(BLACK);
 					w->setColor(RED);
 					leftRotate(w);
+					w->p->setSize(w->getSize());
+					w->setSize( w->l->getSize() + w->r->getSize() + 1 );
 					w = x->p->l;
 				}
 				w->setColor(x->p->getColor());			//case 4
