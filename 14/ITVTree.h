@@ -12,7 +12,7 @@
 #include<iomanip>
 #include<stack>
 #include"ITVNode.h"
-#define MIN_TEMPLATE -10000
+#define MIN_TEMPLATE -1000
 using std::cout;
 using std::endl;
 using std::left;
@@ -22,7 +22,7 @@ using std::stack;
 template<typename T> class ITVTree{
 	public:
 		ITVTree():root(nil){}
-		ITVTree(const RBTree&);
+		ITVTree(const ITVTree&);
 		~ITVTree();
 
 		bool insert(T low, T high);
@@ -48,7 +48,7 @@ template<typename T> class ITVTree{
 		//recursive copy
 		ITVNode<T>* copy(ITVNode<T>* root);
 
-		ITVTree<T>& operator=(const RBTree &tree);
+		ITVTree<T>& operator=(const ITVTree &tree);
 		bool operator==(const ITVTree &tree);
 		bool operator!=(const ITVTree &tree);
 
@@ -69,16 +69,16 @@ template<typename T> class ITVTree{
 };
 
 template<typename T>
-ITVNode<T>* ITVTree<T>::nil = new ITVNode<T>(0, 0, MIN_TEMPLATE, BLACK);
+ITVNode<T>* ITVTree<T>::nil = new ITVNode<T>(MIN_TEMPLATE, MIN_TEMPLATE, MIN_TEMPLATE, BLACK);
 
 template<typename T>
-ITVTree<T>::RBTree(const RBTree &orig)
+ITVTree<T>::ITVTree(const ITVTree &orig)
 {
 	root = copy(orig.root);
 }
 
 template<typename T>
-ITVTree<T>::~RBTree()
+ITVTree<T>::~ITVTree()
 {
 	destroy();
 }
@@ -303,14 +303,14 @@ ITVNode<T>* ITVTree<T>::copy(ITVNode<T> *root)
 }
 
 template<typename T>
-ITVTree<T>& RBTree<T>::operator=(const RBTree &orig)
+ITVTree<T>& ITVTree<T>::operator=(const ITVTree &orig)
 {
 	destroy();
 	root = copy(orig.root);
 }
 
 template<typename T>
-bool ITVTree<T>::operator==(const RBTree &dst)
+bool ITVTree<T>::operator==(const ITVTree &dst)
 {
 	stack<ITVNode<T> *> stkd, stks;
 	ITVNode<T> *d = dst.root;
@@ -358,7 +358,7 @@ bool ITVTree<T>::operator==(const RBTree &dst)
 }
 
 template<typename T>
-bool ITVTree<T>::operator!=(const RBTree &tree)
+bool ITVTree<T>::operator!=(const ITVTree &tree)
 {
 	return !(*this == tree);
 }
@@ -371,7 +371,7 @@ bool ITVTree<T>::insert(ITVNode<T> *z)
 	while(x != nil)
 	{
 		y = x;
-		if(z->getKey() < x->getKey())
+		if(z->getLow() < x->getLow())
 			x = x->l;
 		else
 			x = x->r;
@@ -379,7 +379,7 @@ bool ITVTree<T>::insert(ITVNode<T> *z)
 	z->p = y;
 	if(y == nil)
 		root = z;
-	else if(z->getKey() < y->getKey())
+	else if(z->getLow() < y->getLow())
 		y->l = z;
 	else
 		y->r = z;
@@ -392,6 +392,7 @@ bool ITVTree<T>::insert(ITVNode<T> *z)
 	while(fixmax != nil)
 	{
 		fixmax->max = max(fixmax->high, fixmax->l->max, fixmax->r->max);
+		fixmax = fixmax->p;
 	}
 
 	insertFixUp(z);
@@ -422,7 +423,7 @@ void ITVTree<T>::insertFixUp(ITVNode<T> *z)
 				}
 				z->p->setColor(BLACK);				//case 3
 				z->p->p->setColor(RED);
-				OSTNode<T> *temp = z->p->p;
+				ITVNode<T> *temp = z->p->p;
 				rightRotate(z->p->p);
 				temp->p->max = temp->max;
 				temp->max = max(temp->high, temp->l->max, temp->r->max);
@@ -445,7 +446,7 @@ void ITVTree<T>::insertFixUp(ITVNode<T> *z)
 				}
 				z->p->setColor(BLACK);				//case 3
 				z->p->p->setColor(RED);
-				ITVTree<T> *temp = z->p->p;
+				ITVNode<T> *temp = z->p->p;
 				leftRotate(z->p->p);
 				temp->p->max = temp->max;
 				temp->max = max(temp->high, temp->l->max, temp->r->max);
