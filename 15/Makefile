@@ -1,11 +1,11 @@
-all: cut1
+all: cutT2B
 
-cut1: cutrod.cc CutRod.o
-	g++ -o cut1 cutrod.cc CutRod.o
+cutT2B: cutrod.cc CutRod.o
+	g++ -o cutT2B cutrod.cc CutRod.o
 CutRod.o: CutRod.cc CutRod.h
 	g++ -c CutRod.cc
 
 .PHONY:
 	clean
 clean:
-	rm cut1 CutRod.o
+	rm -f cutT2B CutRod.o

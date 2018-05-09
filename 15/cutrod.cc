@@ -6,13 +6,22 @@
  */
 #include<iostream>
 #include<fstream>
+#include<iomanip>
 #include<vector>
 #include<cstdlib>
+#include"CutRod.h"
+#define LINE 8
 using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
 using std::ifstream;
+using std::setw;
+using std::right;
+using std::left;
+
+void printRS(vector<int> &r, vector<int> &s, int n);
+
 
 int main(int argc, char *argv[])
 {
@@ -28,35 +37,71 @@ int main(int argc, char *argv[])
 	while(input >> data)
 		price.push_back(data);
 	input.close();
+
+	CutRod cut(price);
+	vector<int> r, s;
+
+	int res, n;
+	cout << "input the length: ";
+	cin >> n;
+
+	res = cut.cut(r, s, n);
+	if(res == N_OVERFLOW_PRICE_RANGE)
+		cout << n <<" over the price range" << endl;
+	else
+		cout << "the maxminum price of " << n << " is " << res << endl;
+	printRS(r, s, n);
+
+	return 0;
 }
 
-void printv(vector<int> &r; vector<int> &s, int n)
+void printRS(vector<int> &r, vector<int> &s, int n)
 {
 	int len = r.size() < n ? r.size() : n;
 	len  = len < s.size() ? len : s.size();
+	if(len == 0){
+	       cout << "r[] and s[] is empty because cut don't dynamic run" << endl;	
+	       return;
+	}
+	cout << endl;
 
-	int line = 8;
-	int j = 0, k = 0, cout = 0;
-	for(int i = 0,  ; i < len; i++)
+	int line = LINE;
+	int i = 0, j = 0, k = 0;
+	for(; i <= len; i++)
 	{
 		if(8 == line)
-			cout << left << setw(5) << "i";
-		cout << left << setw(4) << i;
+			cout << left << setw(4) << "i";
+		cout << right << setw(4) << i;
 		line--;
 
 		if(line == 0)
 		{
 			cout << endl;
 			line = 8;
-			cout << left << setw(5) << "r[i]";
+			
+			cout << "r[i]";
 			for(; j <= i; j++)
-			{
-				cout << left << setw(4) << r[i];
-			}
+				cout << right << setw(4) << r[j];
+			cout << endl;
+			
+			cout << "s[i]";
+			for(; k <= i; k++)
+				cout << right << setw(4) << s[k];
+			cout << endl;
+			cout << endl;
 		}
-		for(; j < i-j; j++)
-		{
-			if
-		}	
 	}
+	i--;
+
+	cout << endl;
+	cout << "r[i]";
+	for(; j <= i; j++)
+		cout << right << setw(4) << r[j];
+	cout << endl;
+			
+	cout << "s[i]";
+	for(; k <= i; k++)
+		cout << right << setw(4) << s[k];
+	cout << endl;
+	cout << endl;
 }

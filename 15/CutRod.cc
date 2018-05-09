@@ -5,12 +5,12 @@ using std::vector;
 
 int CutRod::cut(vector<int> &res, vector<int> &solution, int n)
 {
-	if(n > p.size()-1 ) 
-		return N_OVERFLOW_PRICE_RANGE;
-	int v = recursive(n);
-	
 	res.clear();
 	solution.clear();
+	if(n > p.size()-1 ) 
+		return N_OVERFLOW_PRICE_RANGE;
+	
+	int v = recursive(n);
 	for(int i = 0; i <= n; i++)
 	{
 		res.push_back(r[i]);

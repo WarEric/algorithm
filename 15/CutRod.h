@@ -11,12 +11,12 @@
 
 class CutRod{
 	public:
-		CutRod(const std::vector<int> &price): p(price), s(p.size(), 0), r(p.size(), INT_MIN){}
+		CutRod(std::vector<int> price): p(price), s(p.size(), 0), r(p.size(), INT_MIN){}
 
 		int cut(std::vector<int> &res, std::vector<int> &solution,int n);
 	private:
 		int recursive(int n);
-		const std::vector<int> &p;
+		std::vector<int> p;
 		std::vector<int> s;	
 		std::vector<int> r;
 };
