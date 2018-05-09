@@ -8,17 +8,16 @@
 #include<vector>
 #include<climits>
 #define N_OVERFLOW_PRICE_RANGE -1
-using std::vector;
 
 class CutRod{
 	public:
-		CutRod(const vector<int> &price): p(price), s(p.size(), 0), r(p.size(), INT_MIN){}
+		CutRod(const std::vector<int> &price): p(price), s(p.size(), 0), r(p.size(), INT_MIN){}
 
-		int cut(vector<int> &res, vector<int> &solution,int n);
+		int cut(std::vector<int> &res, std::vector<int> &solution,int n);
 	private:
 		int recursive(int n);
-		const vector<int> &p;
-		vector<int> s;	
-		vector<int> r;
+		const std::vector<int> &p;
+		std::vector<int> s;	
+		std::vector<int> r;
 };
 #endif

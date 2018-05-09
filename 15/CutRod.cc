@@ -1,9 +1,7 @@
 #include<iostream>
 #include<climits>
 #include"CutRod.h"
-using std::cout;
-using std::cin;
-using std::endl;
+using std::vector;
 
 int CutRod::cut(vector<int> &res, vector<int> &solution, int n)
 {
@@ -42,7 +40,6 @@ int CutRod::recursive(int n)
 			}
 		}
 	}
-	cout << "r[" << n << "] = " << q << endl;
 	r[n] = q;
 	return q;
 }
