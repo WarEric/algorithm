@@ -8,13 +8,9 @@
 #include<vector>
 using std::vector;
 
-class MatrixChain{
+class MatrixChainOrder{
 	public:
-		MatrixChain():p(nullptr), m(nullptr), s(nullptr){}
-		void order(const vector<int> *p, vector<int> *m, vector<int> *s);
-	private:
-		const vector<int> *p;
-		vector<int> *m;
-		vector<int> *s;
+		MatrixChainOrder():p(nullptr), m(nullptr), s(nullptr){}
+		void order(const vector<int> *p, int m[][], int s[][]);
 };
 #endif
