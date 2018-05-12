@@ -10,7 +10,6 @@ using std::vector;
 
 class MatrixChainOrder{
 	public:
-		MatrixChainOrder():p(nullptr), m(nullptr), s(nullptr){}
-		void order(const vector<int> *p, int m[][], int s[][]);
+		void order(const vector<int> &p, vector<vector<int> > &m, vector<vector<int> > &s);
 };
 #endif
